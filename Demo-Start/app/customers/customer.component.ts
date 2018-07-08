@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Customer } from './customer';
 
 @Component({
@@ -9,15 +9,18 @@ import { Customer } from './customer';
 export class CustomerComponent implements OnInit  {
     customerForm: FormGroup;
     customer: Customer= new Customer();
+    constructor(private formBuilder: FormBuilder){}
 
     ngOnInit(): void {
-        /** form model isn't the data model.  */
-        this.customerForm = new FormGroup({
-            firstName: new FormControl(),
-            lastName: new FormControl(),
-            emailAddress: new FormControl(),
+        /** form model isn't the data model.  
+         * you can also pass value array to each formControlElement
+        */
+        this.customerForm = this.formBuilder.group({
+            firstName: '',
+            lastName: [{value: 'n/a', disabled: 'true'}],
+            emailAddress: '',
             /** passing the default value of sendCatalog form control */
-            sendCatalog: new FormControl(true)
+            sendCatalog: true
         });
     }
 
